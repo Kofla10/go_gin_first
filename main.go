@@ -25,11 +25,11 @@ func main() {
 		// Ruta opst para crear un producto
 		v1.POST("/products", controllers.CreateProduct)
 
-
 		// NUEVA RUTA: DELETE  para eliminar por id
 		//la ruta /products/;id indica que gin capturará el valo despés de /products/
-        v1.DELETE("/products/:id", controllers.DeleteProduct)
+		v1.DELETE("/products/:id", controllers.DeleteProduct)
 
+		v1.PUT("/products/:id", controllers.UpdateProduct)
 
 		//Aquií se pueden agregar las demas rutas como get, put, delete, etc.
 	}

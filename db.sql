@@ -4,3 +4,5 @@ CREATE TABLE products (
     price NUMERIC(10, 2) NOT NULL,
     description TEXT
 );
+
+--  go clean -modcache

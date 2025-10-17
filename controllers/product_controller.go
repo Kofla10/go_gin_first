@@ -73,3 +73,42 @@ func DeleteProduct(c *gin.Context) {
 
 	c.Status(http.StatusNoContent)
 }
+
+func UpdateProduct(c *gin.Context) {
+	var req models.Product
+
+	// 1. validar la entrada del json
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 2. Actualiamos la información en la db
+	query := `UPDATE products SET name= $1, price=$2, description=$3 WHERE id=$4`
+
+	result, err := database.DB.Exec(
+		context.Background(),
+		query,
+		req.Name,
+		req.Price,
+		req.Description,
+		req.ID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product..."})
+		return
+	}
+
+	if result.RowsAffected() == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found or no changes made"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Product updated successfully",
+	})
+}
+
+func GetProducts(c *gin.Context){
+	
+}
